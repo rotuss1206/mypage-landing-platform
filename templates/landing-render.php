@@ -3,23 +3,15 @@ if (!defined('ABSPATH')) exit;
 
 $post_id = get_the_ID();
 
-$head_html = get_post_meta($post_id, '_mplp_head_html', true);
 $body_html = get_post_meta($post_id, '_mplp_body_html', true);
-$head_js   = get_post_meta($post_id, '_mplp_head_js', true);
 $footer_js = get_post_meta($post_id, '_mplp_footer_js', true);
-
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <?= $head_html; ?>
+  <?php mplp_render_head($post_id); ?>
 
-  <?php if ($head_js): ?>
-    <script><?= $head_js; ?></script>
-  <?php endif; ?>
-
+  <?php wp_head(); ?>
 </head>
 <body>
 
@@ -29,5 +21,6 @@ $footer_js = get_post_meta($post_id, '_mplp_footer_js', true);
   <script><?= $footer_js; ?></script>
 <?php endif; ?>
 
+<?php wp_footer(); ?>
 </body>
 </html>

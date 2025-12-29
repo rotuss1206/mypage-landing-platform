@@ -1,34 +1,19 @@
-jQuery(function ($) {
-  if (!wp.codeEditor) return;
+jQuery(document).ready(function ($) {
 
-  const settingsHTML = {
-    codemirror: {
-      mode: 'htmlmixed',
-      lineNumbers: true,
-      lineWrapping: true,
-      autoRefresh: true,
-      foldGutter: true,
-      gutters: [
-        "CodeMirror-linenumbers",
-        "CodeMirror-foldgutter"
-      ]
-    }
-  };
+  const editors = [
+    'mplp_head_html',
+    'mplp_body_html',
+    'mplp_head_js',
+    'mplp_footer_js'
+  ];
 
-  const settingsJS = {
-    codemirror: {
-      mode: 'javascript',
-      lineNumbers: true,
-      lineWrapping: true,
-      autoRefresh: true
-    }
-  };
+  editors.forEach(function (name) {
+    const textarea = document.querySelector(`textarea[name="${name}"]`);
+    if (!textarea) return;
 
-  $('textarea[name="mplp_head_html"], textarea[name="mplp_body_html"]').each(function () {
-    wp.codeEditor.initialize(this, settingsHTML);
+    wp.codeEditor.initialize(textarea, {
+      type: name.includes('js') ? 'application/javascript' : 'text/html'
+    });
   });
 
-  $('textarea[name="mplp_head_js"], textarea[name="mplp_footer_js"]').each(function () {
-    wp.codeEditor.initialize(this, settingsJS);
-  });
 });

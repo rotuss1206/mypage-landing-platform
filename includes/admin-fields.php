@@ -27,6 +27,10 @@ function mplp_render_landing_fields($post) {
   $head_js    = get_post_meta($post->ID, '_mplp_head_js', true);
   $footer_js  = get_post_meta($post->ID, '_mplp_footer_js', true);
   $domain     = get_post_meta($post->ID, '_mplp_domain', true);
+  $seo_title       = get_post_meta($post->ID, '_mplp_seo_title', true);
+  $seo_description = get_post_meta($post->ID, '_mplp_seo_description', true);
+  $seo_robots      = get_post_meta($post->ID, '_mplp_seo_robots', true);
+  $seo_canonical   = get_post_meta($post->ID, '_mplp_seo_canonical', true);
   ?>
 
   <style>
@@ -37,6 +41,60 @@ function mplp_render_landing_fields($post) {
       min-height: 400px;
     }
   </style>
+
+  <div class="mplp-section" style="background:#f9fafb; padding:15px; border:1px solid #ddd;">
+    <h3>SEO Settings</h3>
+
+    <p>
+      <strong>Title</strong><br>
+      <input
+        type="text"
+        name="mplp_seo_title"
+        value="<?= esc_attr($seo_title); ?>"
+        style="width:100%;"
+        placeholder="Page title for Google"
+      >
+    </p>
+
+    <p>
+      <strong>Meta Description</strong><br>
+      <textarea
+        name="mplp_seo_description"
+        rows="3"
+        style="width:100%;"
+        placeholder="Short description for search results"
+      ><?= esc_textarea($seo_description); ?></textarea>
+    </p>
+
+    <p>
+      <strong>Robots</strong><br>
+      <select name="mplp_seo_robots">
+        <?php
+        $robots_options = [
+          '' => 'Default (index, follow)',
+          'index, follow' => 'index, follow',
+          'noindex, follow' => 'noindex, follow',
+          'noindex, nofollow' => 'noindex, nofollow',
+        ];
+        foreach ($robots_options as $value => $label) {
+          echo '<option value="' . esc_attr($value) . '"' . selected($seo_robots, $value, false) . '>' . esc_html($label) . '</option>';
+        }
+        ?>
+      </select>
+    </p>
+
+    <p>
+      <strong>Canonical URL</strong><br>
+      <input
+        type="text"
+        name="mplp_seo_canonical"
+        value="<?= esc_attr($seo_canonical); ?>"
+        style="width:100%;"
+        placeholder="https://example.com/"
+      >
+      <small>Leave empty to auto-generate from domain</small>
+    </p>
+  </div>
 
   <div class="mplp-section">
     <h4>HEAD HTML</h4>
@@ -104,7 +162,7 @@ function mplp_render_landing_fields($post) {
 /**
  * Save fields
  */
-add_action('save_post_landing_page', function ($post_id) {
+add_action('save_post_landing', function ($post_id) {
 
   if (!isset($_POST['mplp_nonce']) || !wp_verify_nonce($_POST['mplp_nonce'], 'mplp_save_landing')) return;
   if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
@@ -115,5 +173,10 @@ add_action('save_post_landing_page', function ($post_id) {
   update_post_meta($post_id, '_mplp_head_js', $_POST['mplp_head_js'] ?? '');
   update_post_meta($post_id, '_mplp_footer_js', $_POST['mplp_footer_js'] ?? '');
   update_post_meta($post_id, '_mplp_domain', sanitize_text_field($_POST['mplp_domain'] ?? ''));
+
+  update_post_meta($post_id, '_mplp_seo_title', sanitize_text_field($_POST['mplp_seo_title'] ?? ''));
+  update_post_meta($post_id, '_mplp_seo_description', sanitize_textarea_field($_POST['mplp_seo_description'] ?? ''));
+  update_post_meta($post_id, '_mplp_seo_robots', sanitize_text_field($_POST['mplp_seo_robots'] ?? ''));
+  update_post_meta($post_id, '_mplp_seo_canonical', esc_url_raw($_POST['mplp_seo_canonical'] ?? ''));
 
 });
