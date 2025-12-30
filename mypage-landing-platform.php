@@ -18,6 +18,4 @@ require_once MPLP_PATH . 'includes/admin-fields.php';
 require_once MPLP_PATH . 'includes/routing.php';
 require_once MPLP_PATH . 'includes/enqueue.php';
 require_once MPLP_PATH . 'includes/render_head.php';
-
-// uploads.php пізніше
-
+require_once MPLP_PATH . 'includes/uploads.php';

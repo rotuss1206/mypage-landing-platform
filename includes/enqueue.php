@@ -24,11 +24,20 @@ add_action('admin_enqueue_scripts', function ($hook) {
 
   wp_enqueue_script('wp-theme-plugin-editor');
   wp_enqueue_style('wp-codemirror');
+  wp_enqueue_media();
 
   wp_enqueue_script(
     'mplp-code-editor',
     MPLP_URL . '/assets/code-editor.js',
     ['jquery', 'wp-codemirror'],
+    null,
+    true
+  );
+
+  wp_enqueue_script(
+    'mplp-uploads',
+    MPLP_URL . '/assets/uploads.js',
+    ['jquery', 'media-editor'],
     null,
     true
   );
