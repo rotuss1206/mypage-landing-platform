@@ -46,11 +46,12 @@ add_action('wp_ajax_mplp_get_assets', function () {
 	    $height = $meta['height'] ?? 0;
 	    ?>
 	    <li style="display:flex;align-items:center;gap:10px;">
-	        <img src="<?= esc_url($url); ?>" width="50">
-	        <span style="font-size:12px; color:#555;"><?= $width ?>x<?= $height ?> px</span>
-	        <input type="text" value="<?= esc_url($url); ?>" readonly onclick="this.select()">
-	        <span class="dashicons dashicons-trash mplp-delete" data-id="<?= esc_attr($id) ?>" title="Delete"></span>
-	    </li>
+		    <input type="checkbox" class="mplp-select-asset" data-id="<?= esc_attr($id); ?>">
+		    <img src="<?= esc_url($url); ?>" width="150">
+		    <span style="font-size:12px; color:#555;"><?= $width ?>x<?= $height ?> px</span>
+		    <input type="text" class="mplp-copy-url" value="<?= esc_url($url); ?>" readonly>
+		    <span class="dashicons dashicons-trash mplp-delete" data-id="<?= esc_attr($id); ?>" title="Delete"></span>
+		</li>
 	    <?php
 	}
 

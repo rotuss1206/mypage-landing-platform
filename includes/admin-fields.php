@@ -102,6 +102,13 @@ function mplp_render_landing_fields($post) {
         .mplp-delete{
           cursor: pointer;
         }
+        #mplp-assets-list li .mplp-copy-url{
+          width: 100%;
+          max-width: 500px;
+        }
+        #mplp-assets-wrapper{
+          margin-top: 40px;
+        }
     </style>
 
     <div class="mplp-switch">
@@ -221,7 +228,17 @@ function mplp_render_landing_fields($post) {
             + Add image
         </button>
 
-        <ul id="mplp-assets-list"></ul>
+        <div id="mplp-assets-wrapper">
+            <label id="mplp-select-all-wrapper" style="display:none; align-items:center;gap:5px;margin-bottom:5px;">
+                <input type="checkbox" id="mplp-select-all"> Select All
+            </label>
+
+            <ul id="mplp-assets-list"></ul>
+
+            <button class="button button-secondary" id="mplp-delete-selected" style="display:none;">
+                Delete selected
+            </button>
+        </div>
     </div>
 
     <script>
